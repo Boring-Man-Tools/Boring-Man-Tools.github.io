@@ -61,8 +61,6 @@ export const Home = () => {
           </ul>
         </nav>
       </section>
-
-      <Footer />
     </main>
   );
 };

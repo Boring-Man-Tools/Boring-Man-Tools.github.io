@@ -9,8 +9,18 @@
       href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
     />
     <title>Boring Man tools</title>
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+    </style>
   </head>
-  <body>
+  <body style="margin: 0; max-width: initial">
     <div id="app"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
