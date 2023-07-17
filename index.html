@@ -4,13 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
-    />
+    <link rel="stylesheet" href="/water.css" />
     <title>Boring Man tools</title>
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+    </style>
   </head>
-  <body>
+  <body style="margin: 0; max-width: initial">
     <div id="app"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
