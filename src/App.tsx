@@ -35,7 +35,7 @@ export function App() {
         </Flex>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+      {/* <AppShell.Navbar p="md">Navbar</AppShell.Navbar> */}
 
       <AppShell.Main>
         <Loadout />
