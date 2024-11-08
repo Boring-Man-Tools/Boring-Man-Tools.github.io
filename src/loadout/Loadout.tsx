@@ -7,14 +7,18 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { EQUIPMENT_WEAPONS, PRIMARY_WEAPONS, WEAPONS } from "../weapons";
+import { EQUIPMENT_WEAPONS, PRIMARY_WEAPONS } from "../weapons";
 import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
 import { useState } from "react";
 import { getRandomArrayElement } from "../utils";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { FaDownload, FaUpload } from "react-icons/fa6";
-import { LoadoutConfig, RawLoadoutConfig } from "./types";
-import { createLoadoutConfigFromFile, DEFAULT_LOADOUT_CONFIG } from "./utils";
+import { LoadoutConfig } from "./types";
+import {
+  createLoadoutConfigFromFile,
+  DEFAULT_LOADOUT_CONFIG,
+  downloadLoadoutConfig,
+} from "./utils";
 
 const firstPrimary = PRIMARY_WEAPONS[0];
 const firstEquipment = EQUIPMENT_WEAPONS[0];
@@ -48,6 +52,10 @@ export const Loadout = () => {
     setLoadout({ ...loadoutConfig });
   };
 
+  const onDownloadLoadout = () => {
+    downloadLoadoutConfig(loadout);
+  };
+
   return (
     <Stack w="28rem" align="center">
       <ChooseWeapon
@@ -66,13 +74,20 @@ export const Loadout = () => {
         setWeapon={setEquipment}
       />
       <Group justify="space-around" w="100%">
-        <FileButton onChange={onUploadLoadout} accept="text/loadout">
+        <FileButton onChange={onUploadLoadout} accept="text/plain">
           {(props) => (
             <Button leftSection={<FaUpload />} variant="light" {...props}>
               Open loadout
             </Button>
           )}
         </FileButton>
+        <Button
+          leftSection={<FaDownload />}
+          variant="light"
+          onClick={onDownloadLoadout}
+        >
+          Save
+        </Button>
         <ActionIcon
           ml="auto"
           aria-label="Randomize loadout"
