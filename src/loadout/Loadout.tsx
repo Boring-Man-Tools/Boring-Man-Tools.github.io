@@ -90,11 +90,13 @@ export const Loadout = () => {
         type="primary"
         weapon={loadout.primary}
         setWeapon={setPrimary}
+        isDualWield={loadout.isDualWield}
       />
       <ChooseWeapon
         type="secondary"
         weapon={loadout.secondary}
         setWeapon={setSecondary}
+        isDualWield={loadout.isDualWield}
       />
       <ChooseWeapon
         type="equipment"
@@ -165,9 +167,15 @@ type ChooseWeaponProps = {
   type: "primary" | "secondary" | "equipment";
   setWeapon: (newWeaponId: number) => void;
   weapon: number;
+  isDualWield?: boolean;
 };
 
-const ChooseWeapon = ({ type, weapon, setWeapon }: ChooseWeaponProps) => {
+const ChooseWeapon = ({
+  type,
+  weapon,
+  setWeapon,
+  isDualWield = false,
+}: ChooseWeaponProps) => {
   const weapons = type === "equipment" ? EQUIPMENT_WEAPONS : PRIMARY_WEAPONS;
   const currentWeaponIndex = weapons.findIndex((value) => value.id === weapon);
   const previousWeaponIndex =
@@ -190,7 +198,15 @@ const ChooseWeapon = ({ type, weapon, setWeapon }: ChooseWeaponProps) => {
         <TbCaretLeftFilled />
       </ActionIcon>
       <Stack mx="auto">
-        <Image src={currentWeapon.src} w="auto" fit="contain" />
+        <Image
+          src={
+            isDualWield
+              ? (currentWeapon.single_dual_src ?? currentWeapon.src)
+              : currentWeapon.src
+          }
+          w="auto"
+          fit="contain"
+        />
         <Text size="md">{currentWeapon.name}</Text>
       </Stack>
       <ActionIcon
