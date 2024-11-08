@@ -1,9 +1,9 @@
 import "./App.css";
-import { AppShell, Avatar, Flex, Image, NavLink } from "@mantine/core";
+import { AppShell, Avatar, Flex, NavLink } from "@mantine/core";
 import BoringLogo from "./assets/boring_tools.png";
-import Pistol from "./assets/weapons/pistol.png";
 import { TbHome2 } from "react-icons/tb";
 import { ToggleColorScheme } from "./theme/ToggleColorScheme";
+import { Loadout } from "./loadout/Loadout";
 
 export function App() {
   return (
@@ -38,12 +38,8 @@ export function App() {
       <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
 
       <AppShell.Main>
-        <Weapons />
+        <Loadout />
       </AppShell.Main>
     </AppShell>
   );
 }
-
-const Weapons = () => {
-  return <Image src={Pistol} w="auto" fit="contain" />;
-};
