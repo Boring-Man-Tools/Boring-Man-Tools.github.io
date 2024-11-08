@@ -175,3 +175,7 @@ export const WEAPONS: WeaponInfo[] = [
 export const PRIMARY_WEAPONS = WEAPONS.filter(w => w.equipment !== true)
 export const EQUIPMENT_WEAPONS = WEAPONS.filter(w => w.equipment === true)
 export const DUAL_WEAPONS = WEAPONS.filter(w => w.dual === true)
+
+export function canWeaponIdDualWield(id: number){
+  return DUAL_WEAPONS.find(w => w.id === id) != null
+}

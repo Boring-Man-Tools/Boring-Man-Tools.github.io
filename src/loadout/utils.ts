@@ -1,4 +1,5 @@
 import { downloadFile } from "../utils";
+import { canWeaponIdDualWield } from "../weapons";
 import { LoadoutConfig, RawLoadoutConfig } from "./types";
 
 export const DEFAULT_LOADOUT_CONFIG: LoadoutConfig = {
@@ -57,4 +58,8 @@ export function downloadLoadoutConfig(config: LoadoutConfig) {
     `${config.filepath}`;
 
   downloadFile(filename, content);
+}
+
+export function loadoutCanDualWield({ primary, secondary }: LoadoutConfig) {
+  return canWeaponIdDualWield(primary) && canWeaponIdDualWield(secondary);
 }

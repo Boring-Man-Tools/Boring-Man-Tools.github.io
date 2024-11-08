@@ -5,11 +5,16 @@ import {
   Group,
   Image,
   Stack,
+  Switch,
   Text,
 } from "@mantine/core";
-import { EQUIPMENT_WEAPONS, PRIMARY_WEAPONS } from "../weapons";
+import {
+  canWeaponIdDualWield,
+  EQUIPMENT_WEAPONS,
+  PRIMARY_WEAPONS,
+} from "../weapons";
 import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getRandomArrayElement } from "../utils";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { FaDownload, FaUpload } from "react-icons/fa6";
@@ -18,6 +23,7 @@ import {
   createLoadoutConfigFromFile,
   DEFAULT_LOADOUT_CONFIG,
   downloadLoadoutConfig,
+  loadoutCanDualWield,
 } from "./utils";
 
 const firstPrimary = PRIMARY_WEAPONS[0];
@@ -37,13 +43,25 @@ export const Loadout = () => {
     setLoadout({ ...loadout, secondary: weapon });
   const setEquipment = (weapon: number) =>
     setLoadout({ ...loadout, equipment: weapon });
+  const toggleDualWield = () =>
+    setLoadout({ ...loadout, isDualWield: !loadout.isDualWield });
 
   const onRandomClick = () => {
+    const primary = getRandomPrimaryWeapon().id;
+    const secondary = getRandomPrimaryWeapon().id;
+    const canDualWield = loadoutCanDualWield({
+      ...loadout,
+      primary,
+      secondary,
+    });
+    const isDualWield = canDualWield && Math.random() > 0.5;
+
     setLoadout({
       ...loadout,
-      primary: getRandomPrimaryWeapon().id,
-      secondary: getRandomPrimaryWeapon().id,
+      primary,
+      secondary,
       equipment: getRandomEquipmentWeapon().id,
+      isDualWield,
     });
   };
 
@@ -55,6 +73,16 @@ export const Loadout = () => {
   const onDownloadLoadout = () => {
     downloadLoadoutConfig(loadout);
   };
+
+  // update dualwield if primary or secondary weapons change & not compatible
+  useEffect(() => {
+    const canDualWield =
+      canWeaponIdDualWield(loadout.primary) &&
+      canWeaponIdDualWield(loadout.secondary);
+    if (!canDualWield) {
+      setLoadout((prev) => ({ ...prev, isDualWield: false }));
+    }
+  }, [loadout.primary, loadout.secondary, setLoadout]);
 
   return (
     <Stack w="28rem" align="center">
@@ -88,17 +116,48 @@ export const Loadout = () => {
         >
           Save
         </Button>
-        <ActionIcon
-          ml="auto"
-          aria-label="Randomize loadout"
-          onClick={onRandomClick}
-          variant="subtle"
-          size="xl"
-        >
-          <GiPerspectiveDiceSixFacesRandom size="4rem" />
-        </ActionIcon>
+        <Group ml="auto">
+          <DualWieldSwitch
+            canDualWield={loadoutCanDualWield(loadout)}
+            onChange={toggleDualWield}
+            isOn={loadout.isDualWield}
+          />
+          <ActionIcon
+            aria-label="Randomize loadout"
+            onClick={onRandomClick}
+            variant="subtle"
+            size="xl"
+          >
+            <GiPerspectiveDiceSixFacesRandom size="4rem" />
+          </ActionIcon>
+        </Group>
       </Group>
     </Stack>
+  );
+};
+
+type DualWieldSwitchProps = {
+  canDualWield: boolean;
+  onChange: () => void;
+  isOn: boolean;
+};
+const DualWieldSwitch = ({
+  canDualWield,
+  onChange,
+  isOn,
+}: DualWieldSwitchProps) => {
+  return (
+    <Switch
+      size="lg"
+      onLabel="Dual wield"
+      offLabel="No dual wield"
+      style={{
+        "--switch-width": "6rem",
+      }}
+      disabled={!canDualWield}
+      onChange={onChange}
+      checked={isOn}
+    />
   );
 };
 
