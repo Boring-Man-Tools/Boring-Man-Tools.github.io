@@ -1,16 +1,10 @@
-import { downloadFile } from "../utils";
+import { downloadFile, getRandomArrayElement } from "../utils";
 import { canWeaponIdDualWield } from "../weapons";
+import { FUNNY_LOADOUTS } from "./loadouts";
 import { LoadoutConfig, RawLoadoutConfig } from "./types";
 
-export const DEFAULT_LOADOUT_CONFIG: LoadoutConfig = {
-  name: "default",
-  filepath: "loadouts\\42.loadout",
-  primary: 0,
-  secondary: 0,
-  equipment: 0,
-  isDualWield: false,
-  isFromWindows: true,
-};
+export const DEFAULT_LOADOUT_CONFIG: LoadoutConfig =
+  getRandomArrayElement(FUNNY_LOADOUTS);
 
 const WINDOWS_RETURN_LINE = "\r\n";
 const RETURN_LINE = "\n";

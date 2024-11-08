@@ -7,6 +7,7 @@ import {
   Stack,
   Switch,
   Text,
+  TextInput,
 } from "@mantine/core";
 import {
   canWeaponIdDualWield,
@@ -26,25 +27,18 @@ import {
   loadoutCanDualWield,
 } from "./utils";
 
-const firstPrimary = PRIMARY_WEAPONS[0];
-const firstEquipment = EQUIPMENT_WEAPONS[0];
-
 export const Loadout = () => {
-  const [loadout, setLoadout] = useState<LoadoutConfig>({
-    ...DEFAULT_LOADOUT_CONFIG,
-    primary: firstPrimary.id,
-    secondary: firstPrimary.id,
-    equipment: firstEquipment.id,
-  });
+  const [loadout, setLoadout] = useState<LoadoutConfig>(DEFAULT_LOADOUT_CONFIG);
 
   const setPrimary = (weapon: number) =>
-    setLoadout({ ...loadout, primary: weapon });
+    setLoadout((l) => ({ ...l, primary: weapon }));
   const setSecondary = (weapon: number) =>
-    setLoadout({ ...loadout, secondary: weapon });
+    setLoadout((l) => ({ ...l, secondary: weapon }));
   const setEquipment = (weapon: number) =>
-    setLoadout({ ...loadout, equipment: weapon });
+    setLoadout((l) => ({ ...l, equipment: weapon }));
   const toggleDualWield = () =>
-    setLoadout({ ...loadout, isDualWield: !loadout.isDualWield });
+    setLoadout((l) => ({ ...l, isDualWield: !l.isDualWield }));
+  const setName = (name: string) => setLoadout((l) => ({ ...l, name }));
 
   const onRandomClick = () => {
     const primary = getRandomPrimaryWeapon().id;
@@ -86,6 +80,12 @@ export const Loadout = () => {
 
   return (
     <Stack w="28rem" align="center">
+      <TextInput
+        value={loadout.name}
+        label="Loadout name"
+        placeholder="Best loadout name evaah"
+        onChange={(e) => setName(e.currentTarget.value)}
+      />
       <ChooseWeapon
         type="primary"
         weapon={loadout.primary}
