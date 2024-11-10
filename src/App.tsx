@@ -5,7 +5,7 @@ import { TbHome2 } from "react-icons/tb";
 import { ToggleColorScheme } from "./theme/ToggleColorScheme";
 import { Loadout } from "./loadout/Loadout";
 import {
-  createBrowserRouter,
+  createHashRouter,
   Outlet,
   Link as RLink,
   LinkProps as RLinkProps,
@@ -57,15 +57,15 @@ type CustomNavLinkProps = Omit<NavLinkProps, "to" | "active"> & {
   to: "/" | `/${string}/`;
 };
 const CustomNavLink = ({ to, ...navLinkProps }: CustomNavLinkProps) => {
-  const finalTo = to === "/" ? "/boringman-tools/" : `/boringman-tools${to}`;
+  // const finalTo = to === "/" ? "/boringman-tools/" : `/boringman-tools${to}`;
   const location = useLocation();
-  const isActiveLink = location.pathname.endsWith(finalTo);
+  const isActiveLink = location.pathname === to;
 
   const RouterLink = ({
     children,
     ...rest
   }: { children: ReactNode } & Omit<RLinkProps, "to">) => (
-    <RLink to={finalTo} {...rest}>
+    <RLink to={to} {...rest}>
       {children}
     </RLink>
   );
@@ -75,9 +75,9 @@ const CustomNavLink = ({ to, ...navLinkProps }: CustomNavLinkProps) => {
   );
 };
 
-export const appRouter = createBrowserRouter([
+export const appRouter = createHashRouter([
   {
-    path: "/boringman-tools/",
+    path: "/",
     element: <App />,
     children: [
       {
