@@ -1,9 +1,17 @@
 import "./App.css";
-import { AppShell, Avatar, Flex, NavLink } from "@mantine/core";
+import { AppShell, Avatar, Flex, NavLink, NavLinkProps } from "@mantine/core";
 import BoringLogo from "./assets/boring_tools.png";
 import { TbHome2 } from "react-icons/tb";
 import { ToggleColorScheme } from "./theme/ToggleColorScheme";
 import { Loadout } from "./loadout/Loadout";
+import {
+  createBrowserRouter,
+  Outlet,
+  Link as RLink,
+  LinkProps as RLinkProps,
+  useLocation,
+} from "react-router-dom";
+import { ReactNode } from "react";
 
 export function App() {
   return (
@@ -25,21 +33,57 @@ export function App() {
         >
           <Avatar src={BoringLogo} radius="md" />
           <Flex h="100%">
-            <NavLink label="Home" leftSection={<TbHome2 size="1rem" />} />
-            <NavLink href="#required-for-focus" label="Inventory" />
-            <NavLink href="#required-for-focus" label="Loadout" />
+            <CustomNavLink
+              to="/"
+              label="Home"
+              leftSection={<TbHome2 size="1rem" />}
+            />
+            <CustomNavLink to="/loadout/" label="Loadout" />
           </Flex>
           <div style={{ marginLeft: "auto" }}>
             <ToggleColorScheme />
           </div>
         </Flex>
       </AppShell.Header>
-
       {/* <AppShell.Navbar p="md">Navbar</AppShell.Navbar> */}
-
       <AppShell.Main>
-        <Loadout />
+        <Outlet />
       </AppShell.Main>
     </AppShell>
   );
 }
+
+type CustomNavLinkProps = Omit<NavLinkProps, "to" | "active"> & {
+  to: "/" | `/${string}/`;
+};
+const CustomNavLink = ({ to, ...navLinkProps }: CustomNavLinkProps) => {
+  const finalTo = to === "/" ? "/boringman-tools/" : `/boringman-tools${to}`;
+  const location = useLocation();
+  const isActiveLink = location.pathname.endsWith(finalTo);
+
+  const RouterLink = ({
+    children,
+    ...rest
+  }: { children: ReactNode } & Omit<RLinkProps, "to">) => (
+    <RLink to={finalTo} {...rest}>
+      {children}
+    </RLink>
+  );
+
+  return (
+    <NavLink {...navLinkProps} component={RouterLink} active={isActiveLink} />
+  );
+};
+
+export const appRouter = createBrowserRouter([
+  {
+    path: "/boringman-tools/",
+    element: <App />,
+    children: [
+      {
+        path: "loadout/",
+        element: <Loadout />,
+      },
+    ],
+  },
+]);
