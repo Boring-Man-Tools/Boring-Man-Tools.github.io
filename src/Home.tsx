@@ -26,7 +26,7 @@ const sections: Section[] = [
 ];
 
 export const Home = () => (
-  <Stack align="flex-start">
+  <Stack>
     {sections.map((section) => (
       <>
         <Title order={2}>{section.title}</Title>

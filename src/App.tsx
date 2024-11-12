@@ -1,4 +1,3 @@
-import "./App.css";
 import { AppShell, Avatar, Flex, NavLink, NavLinkProps } from "@mantine/core";
 import BoringLogo from "./assets/boring_tools.png";
 import { TbHome2 } from "react-icons/tb";
