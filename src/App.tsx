@@ -47,7 +47,6 @@ export function App() {
           </div>
         </Flex>
       </AppShell.Header>
-      {/* <AppShell.Navbar p="md">Navbar</AppShell.Navbar> */}
       <AppShell.Main>
         {location.pathname === "/" && <Home />}
         <Outlet />
