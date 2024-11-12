@@ -3,9 +3,7 @@ import { AppShell, Avatar, Flex, NavLink, NavLinkProps } from "@mantine/core";
 import BoringLogo from "./assets/boring_tools.png";
 import { TbHome2 } from "react-icons/tb";
 import { ToggleColorScheme } from "./theme/ToggleColorScheme";
-import { Loadout } from "./loadout/Loadout";
 import {
-  createHashRouter,
   Outlet,
   Link as RLink,
   LinkProps as RLinkProps,
@@ -13,6 +11,7 @@ import {
 } from "react-router-dom";
 import { ReactNode } from "react";
 import { Home } from "./Home";
+import { ValidRoute } from "./routing";
 
 export function App() {
   const location = useLocation();
@@ -56,7 +55,7 @@ export function App() {
 }
 
 type CustomNavLinkProps = Omit<NavLinkProps, "to" | "active"> & {
-  to: "/" | `/${string}/`;
+  to: ValidRoute;
 };
 const CustomNavLink = ({ to, ...navLinkProps }: CustomNavLinkProps) => {
   // const finalTo = to === "/" ? "/boringman-tools/" : `/boringman-tools${to}`;
@@ -76,16 +75,3 @@ const CustomNavLink = ({ to, ...navLinkProps }: CustomNavLinkProps) => {
     <NavLink {...navLinkProps} component={RouterLink} active={isActiveLink} />
   );
 };
-
-export const appRouter = createHashRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "loadout/",
-        element: <Loadout />,
-      },
-    ],
-  },
-]);
