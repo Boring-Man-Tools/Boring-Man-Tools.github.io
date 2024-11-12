@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Button,
+  Center,
   FileButton,
   Group,
   Image,
@@ -79,62 +80,64 @@ export const Loadout = () => {
   }, [loadout.primary, loadout.secondary, setLoadout]);
 
   return (
-    <Stack w="28rem" align="center">
-      <TextInput
-        value={loadout.name}
-        label="Loadout name"
-        placeholder="Best loadout name evaah"
-        onChange={(e) => setName(e.currentTarget.value)}
-      />
-      <ChooseWeapon
-        type="primary"
-        weapon={loadout.primary}
-        setWeapon={setPrimary}
-        isDualWield={loadout.isDualWield}
-      />
-      <ChooseWeapon
-        type="secondary"
-        weapon={loadout.secondary}
-        setWeapon={setSecondary}
-        isDualWield={loadout.isDualWield}
-      />
-      <ChooseWeapon
-        type="equipment"
-        weapon={loadout.equipment}
-        setWeapon={setEquipment}
-      />
-      <Group justify="space-around" w="100%">
-        <FileButton onChange={onUploadLoadout} accept="text/plain">
-          {(props) => (
-            <Button leftSection={<FaUpload />} variant="light" {...props}>
-              Open loadout
-            </Button>
-          )}
-        </FileButton>
-        <Button
-          leftSection={<FaDownload />}
-          variant="light"
-          onClick={onDownloadLoadout}
-        >
-          Save
-        </Button>
-        <Group ml="auto">
-          <DualWieldSwitch
-            canDualWield={loadoutCanDualWield(loadout)}
-            onChange={toggleDualWield}
-            isOn={loadout.isDualWield}
-          />
-          <ActionIcon
-            aria-label="Randomize loadout"
-            onClick={onRandomClick}
-            variant="subtle"
-            size="xl"
+    <Center>
+      <Stack w="28rem" align="center">
+        <TextInput
+          value={loadout.name}
+          label="Loadout name"
+          placeholder="Best loadout name evaah"
+          onChange={(e) => setName(e.currentTarget.value)}
+        />
+        <ChooseWeapon
+          type="primary"
+          weapon={loadout.primary}
+          setWeapon={setPrimary}
+          isDualWield={loadout.isDualWield}
+        />
+        <ChooseWeapon
+          type="secondary"
+          weapon={loadout.secondary}
+          setWeapon={setSecondary}
+          isDualWield={loadout.isDualWield}
+        />
+        <ChooseWeapon
+          type="equipment"
+          weapon={loadout.equipment}
+          setWeapon={setEquipment}
+        />
+        <Group justify="space-around" w="100%">
+          <FileButton onChange={onUploadLoadout} accept="text/plain">
+            {(props) => (
+              <Button leftSection={<FaUpload />} variant="light" {...props}>
+                Open loadout
+              </Button>
+            )}
+          </FileButton>
+          <Button
+            leftSection={<FaDownload />}
+            variant="light"
+            onClick={onDownloadLoadout}
           >
-            <GiPerspectiveDiceSixFacesRandom size="4rem" />
-          </ActionIcon>
+            Save
+          </Button>
+          <Group ml="auto">
+            <DualWieldSwitch
+              canDualWield={loadoutCanDualWield(loadout)}
+              onChange={toggleDualWield}
+              isOn={loadout.isDualWield}
+            />
+            <ActionIcon
+              aria-label="Randomize loadout"
+              onClick={onRandomClick}
+              variant="subtle"
+              size="xl"
+            >
+              <GiPerspectiveDiceSixFacesRandom size="4rem" />
+            </ActionIcon>
+          </Group>
         </Group>
-      </Group>
-    </Stack>
+      </Stack>
+    </Center>
   );
 };
 

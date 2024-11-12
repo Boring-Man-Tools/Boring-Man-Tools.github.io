@@ -20,6 +20,7 @@ export function App() {
       navbar={{
         width: 300,
         breakpoint: "sm",
+        collapsed: { desktop: true, mobile: true },
       }}
       padding="md"
     >
