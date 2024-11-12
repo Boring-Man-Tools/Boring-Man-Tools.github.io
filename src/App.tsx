@@ -12,8 +12,10 @@ import {
   useLocation,
 } from "react-router-dom";
 import { ReactNode } from "react";
+import { Home } from "./Home";
 
 export function App() {
+  const location = useLocation();
   return (
     <AppShell
       header={{ height: 60 }}
@@ -47,6 +49,7 @@ export function App() {
       </AppShell.Header>
       {/* <AppShell.Navbar p="md">Navbar</AppShell.Navbar> */}
       <AppShell.Main>
+        {location.pathname === "/" && <Home />}
         <Outlet />
       </AppShell.Main>
     </AppShell>
